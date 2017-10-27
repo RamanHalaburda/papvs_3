@@ -1,6 +1,8 @@
 package com.boston.roman.papvs3;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -17,6 +19,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         TextView tv = (TextView) findViewById(R.id.tv);
+        registerForContextMenu(tv);
     }
 
     @Override
@@ -33,14 +36,26 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public boolean onContextItemSelect(MenuItem mi)
+    public boolean onContextItemSelected(MenuItem mi)
     {
         if(mi.getItemId() == R.id.second)
         {
-            // open activity
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("About")
+                    .setMessage("Roman Halaburda")
+                    .setCancelable(false)
+                    .setNegativeButton("OK", new DialogInterface.OnClickListener()
+                    {
+                        public  void onClick(DialogInterface dialog, int id)
+                        {
+                            dialog.cancel();
+                        }
+                    }
+                    );
+            AlertDialog alert = builder.create();
+            alert.show();
         }
-
-        return super.onContextItemSelected(mi);
+        return true;
     }
 
 }
